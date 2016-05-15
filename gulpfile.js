@@ -123,10 +123,9 @@ gulp.task("run", [
 
 // Push files in build/ to a gh-pages branch
 gulp.task("push:gh-pages", function () {
-    return gulp.src("./" + paths.dest + "/**/*")
+    return gulp.src(["./examples/**/*.*", "./dist/**/*.*"])
         .pipe(ghPages({
-            // PLACE REAL URL HERE
-            remoteUrl: "https://github.com/blahblah/blahblah.git"
+            remoteUrl: "https://github.com/mikewesthad/p5-bbox-aligned-text.git"
         }));
 });
 
