@@ -1,12 +1,27 @@
 {
-  "name": "gulp-demo",
+  "name": "p5-bbox-aligned-word",
   "version": "1.0.0",
-  "description": "",
+  "description": "A p5.js module for drawing text aligned with its bounding box",
+  "repository": {
+        "type": "git",
+        "url": "mikewesthad/p5-bbox-aligned-text"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "",
-  "license": "",
+  "author": "Michael Hadley <michaelwesthadley@gmail.com>",
+  "keywords": [
+    "p5.js", 
+    "canvas",
+    "text",
+    "typography",
+    "font"
+  ],
+  "license": "MIT",
+  "bugs": {
+    "url" : "https://github.com/mikewesthad/p5-bbox-aligned-text/issues",
+    "email" : "michaelwesthadley@gmail.com"
+  },
   "devDependencies": {
     "browserify": "^13.0.0",
     "del": "^2.2.0",
