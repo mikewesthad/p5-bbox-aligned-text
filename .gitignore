@@ -4,6 +4,9 @@
 # Node modules
 node_modules
 
+# Temp directory for gh-pages publishing
+.publish
+
 # Windows image file caches
 Thumbs.db
 ehthumbs.db
