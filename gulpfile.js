@@ -28,6 +28,7 @@ console.log("Build environment: " + (isProduction ? "production" : "debug"));
 
 // -- PATHS --------------------------------------------------------------------
 
+var globalName = "BboxAlignedText";
 var mainFilename = "bbox-aligned-text.js";
 var paths = {
     examples: "examples/",
@@ -46,7 +47,10 @@ var paths = {
 gulp.task("js-browserify", function() {
     var b = browserify({
         entries: paths.jsEntry,
-        debug: true
+        debug: true,
+        // Build module in a universal way, so that it can be loaded with
+        // CommonJS or can be loaded to a global variable
+        standalone: globalName 
     })
     return b.bundle()
         .on("error", gutil.log)
