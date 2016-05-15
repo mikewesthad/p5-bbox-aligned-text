@@ -11,7 +11,7 @@ Still, there are times when you would want to position text based on its exact b
 
 That's what this module provides - an easy way to position (and rotate) p5.js text based on its exact bounding box.
 
-![Typography metrics](https://upload.wikimedia.org/wikipedia/commons/thumb/3/39/Typography_Line_Terms.svg/2000px-Typography_Line_Terms.svg.png)
+[![Typography metrics](readme-assets/typographic-line-terms.png)](https://en.wikipedia.org/wiki/Typeface)
 
 Installation
 ------------
@@ -49,7 +49,7 @@ BboxAlignedText
 
 ### new BboxAlignedText(font, text, [fontSize], [pInstance])
 
-Creates a new BboxAlignedText object - a text object that can be drawn with anchor points based on a tight bounding box
+Creates a new BboxAlignedText object - a text object that can be drawn with anchor points based on a tight bounding box around the text.
 
 | Param       | Type                | Default             | Description                                               |
 |-------------|---------------------|---------------------|-----------------------------------------------------------|
@@ -58,13 +58,28 @@ Creates a new BboxAlignedText object - a text object that can be drawn with anch
 | [fontSize]  | <code>number</code> | <code>12</code>     | font size to use for string                               |
 | [pInstance] | <code>object</code> | <code>window</code> | reference to p5 instance, leave blank if sketch is global |
 
-<a name="BboxAlignedText+setText"></a>
+**Example**  
+\`\``js var font, bboxText; function preload() { font = loadFont("./assets/Regular.ttf"); } function setup() { createCanvas(400, 600); background(0);
+
+```
+bboxText = new BboxAlignedText(font, "Hey!", 30);
+
+fill("#00A8EA");
+noStroke();    
+bboxText.setRotation(PI / 4);
+bboxText.setAnchor(BboxAlignedText.ALIGN.CENTER,
+                   BboxAlignedText.BASELINE.CENTER);
+bboxText.draw(width / 2, height / 2, true);
+```
+
+\}\`\`\`<a name="BboxAlignedText+setText"></a>
 
 ### bboxAlignedText.setText(string)
 
 Set current text
 
-**Kind**: instance method of <code>[BboxAlignedText](#BboxAlignedText)</code>**Access:** public
+**Kind**: instance method of <code>[BboxAlignedText](#BboxAlignedText)</code>  
+**Access:** public
 
 | Param  | Type                | Description            |
 |--------|---------------------|------------------------|
@@ -76,7 +91,8 @@ Set current text
 
 Set current text size
 
-**Kind**: instance method of <code>[BboxAlignedText](#BboxAlignedText)</code>**Access:** public
+**Kind**: instance method of <code>[BboxAlignedText](#BboxAlignedText)</code>  
+**Access:** public
 
 | Param    | Type                | Description |
 |----------|---------------------|-------------|
@@ -88,7 +104,8 @@ Set current text size
 
 Set rotation of text
 
-**Kind**: instance method of <code>[BboxAlignedText](#BboxAlignedText)</code>**Access:** public
+**Kind**: instance method of <code>[BboxAlignedText](#BboxAlignedText)</code>  
+**Access:** public
 
 | Param | Type                | Description         |
 |-------|---------------------|---------------------|
@@ -100,7 +117,8 @@ Set rotation of text
 
 Set anchor point for text (horizonal and vertical alignment) relative to bounding box
 
-**Kind**: instance method of <code>[BboxAlignedText](#BboxAlignedText)</code>**Access:** public
+**Kind**: instance method of <code>[BboxAlignedText](#BboxAlignedText)</code>  
+**Access:** public
 
 | Param    | Type                | Default                         | Description         |
 |----------|---------------------|---------------------------------|---------------------|
@@ -113,7 +131,8 @@ Set anchor point for text (horizonal and vertical alignment) relative to boundin
 
 Draws the text particle with the specified style parameters
 
-**Kind**: instance method of <code>[BboxAlignedText](#BboxAlignedText)</code>**Access:** public
+**Kind**: instance method of <code>[BboxAlignedText](#BboxAlignedText)</code>  
+**Access:** public
 
 | Param        | Type                 | Default            | Description                   |
 |--------------|----------------------|--------------------|-------------------------------|
@@ -127,7 +146,10 @@ Draws the text particle with the specified style parameters
 
 Vertical alignment values
 
-**Kind**: static enum property of <code>[BboxAlignedText](#BboxAlignedText)</code>**Access:** public**Read only**: true**Properties**
+**Kind**: static enum property of <code>[BboxAlignedText](#BboxAlignedText)</code>  
+**Access:** public  
+**Read only**: true  
+**Properties**
 
 | Name   | Type                | Default                         |
 |--------|---------------------|---------------------------------|
@@ -141,7 +163,10 @@ Vertical alignment values
 
 Baseline alignment values
 
-**Kind**: static enum property of <code>[BboxAlignedText](#BboxAlignedText)</code>**Access:** public**Read only**: true**Properties**
+**Kind**: static enum property of <code>[BboxAlignedText](#BboxAlignedText)</code>  
+**Access:** public  
+**Read only**: true  
+**Properties**
 
 | Name       | Type                | Default                             |
 |------------|---------------------|-------------------------------------|
