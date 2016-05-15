@@ -95,8 +95,10 @@ gulp.task("watch", function () {
 // localhost:8080/.
 gulp.task("express-server", function () {
     var app = express();
-    app.use(express.static(path.join(__dirname, paths.dest)));
     app.use(express.static(path.join(__dirname, paths.examples)));
+    // Serve up dist/ on the server, mounted at "dist/". This way the examples
+    // appear to be looking in the right place for the script.
+    app.use("/" + paths.dest, express.static(path.join(__dirname, paths.dest)));
     app.listen(8080);
 });
 
