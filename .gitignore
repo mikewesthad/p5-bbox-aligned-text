@@ -1,3 +1,9 @@
+# Sublime project
+*.sublime-workspace
+
+# Node modules
+node_modules
+
 # Windows image file caches
 Thumbs.db
 ehthumbs.db
