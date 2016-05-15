@@ -1,9 +1,9 @@
 p5-bbox-aligned-text
 ====================
 
-A module for positioning p5.js text based on its bounding box.
+A module for positioning p5.js text based on its bounding box.  [Live demo](https://www.mikewesthad.com/p5-bbox-aligned-text/examples/02-instance-p5-rotating-words/).
 
-![Example](readme-assets/rotate-demo.gif)
+[![Example](readme-assets/rotate-demo.gif)](https://www.mikewesthad.com/p5-bbox-aligned-text/examples/02-instance-p5-rotating-words/)
 
 [p5.js](http://p5js.org/) is a wonderful creative coding library for JavaScript. The methods that p5.js provides for text placement (i.e. text anchor points) are based on a font's ascent, descent & baseline (see image below). This is exactly what you want when laying out words as legible text.
 
