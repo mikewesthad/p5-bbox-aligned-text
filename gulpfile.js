@@ -1,12 +1,3 @@
-/**
- * p5.js Gulp Template
- * 
- * This is a "trimmed," JS-focused gulp recipe.  It's built for use with p5.js,
- * a creative coding library. It's a midway point between a teaching demo and a
- * full "kitchen sink" workflow (leaning closer to the latter than the former).
- */
-
-
 // -- SETUP --------------------------------------------------------------------
 
 var gulp = require("gulp");
@@ -28,6 +19,7 @@ var path = require("path");
 var fs = require("fs");
 var runSequence = require("run-sequence");
 var gulpif = require("gulp-if");
+var rename = require("gulp-rename");
 
 // Check the command line to see if this is a production build
 var isProduction = (gutil.env.p || gutil.env.production);
@@ -36,106 +28,71 @@ console.log("Build environment: " + (isProduction ? "production" : "debug"));
 
 // -- PATHS --------------------------------------------------------------------
 
+var mainFilename = "bbox-aligned-text.js";
 var paths = {
-    html: ["src/**/*.html"],
-    css: ["src/**/*.css"],
-    jsLibs: ["src/js/libs/**/*.js"],
-    js: ["src/js/**/*.js", "!src/js/libs/**/*.js"],
-    jsEntry: ["src/js/main.js"],
-    assets: ["src/assets/**/*.*"],
-    dest: "lib"
-}
+    examples: "examples/",
+    jsLib: ["lib/**/*.js"],
+    jsEntry: ["lib/" + mainFilename],
+    dest: "dist"
+};
 
 
 // -- BUILD TASKS --------------------------------------------------------------
 // These gulp tasks take everything that is in src/, process them and output
-// them into build/.
+// them into lib/.
 
-// Copy HTML & pipe changes to LiveReload to trigger a reload.
-gulp.task("copy-html", function () {
-    return gulp.src(paths.html)
-        .pipe(gulp.dest(paths.dest))
-        .pipe(liveReload());
-});
-
-// Copy CSS & pipe changes to LiveReload to trigger a reload.
-gulp.task("copy-css", function () {
-    return gulp.src(paths.css)
-        .pipe(gulp.dest(paths.dest))
-        .pipe(liveReload());
-});
-
-// Copy js/libs & pipe changes to LiveReload to trigger a reload.
-gulp.task("copy-js-libs", function () {
-    return gulp.src(paths.jsLibs)
-        .pipe(gulp.dest(paths.dest + "/js/libs"))
-        .pipe(liveReload());
-});
-
-// Combine, sourcemap and uglify our JS libraries into main.js. This uses 
-// browserify (CommonJS-style modules). 
-gulp.task("js", function() {
+// Combine, sourcemap and uglify JS libraries into main.js. This uses browserify
+// (CommonJS-style modules).
+gulp.task("js-browserify", function() {
     var b = browserify({
         entries: paths.jsEntry,
         debug: true
     })
     return b.bundle()
         .on("error", gutil.log)
-        .pipe(source("main.js"))
+        .pipe(source(mainFilename))
         .pipe(buffer())
-        .pipe(sourcemaps.init({loadMaps: true}))
-            // Uglify only if we are in a production build
-            .pipe(gulpif(isProduction, uglify()))
+        .pipe(gulp.dest(paths.dest))
+        .pipe(sourcemaps.init({ loadMaps: true }))
+            .pipe(uglify())
             .on("error", gutil.log)
-        .pipe(sourcemaps.write("main"))
-        .pipe(gulp.dest(paths.dest + "/js"))
+        .pipe(sourcemaps.write())
+        .pipe(rename({ extname: ".min.js" }))
+        .pipe(gulp.dest(paths.dest))
         .pipe(liveReload());
 });
 
 // Lint only our custom JS.
 gulp.task("jslint", function() {
-    return gulp.src(paths.js)
+    return gulp.src(paths.jsLib)
         .pipe(jshint())
         .pipe(jshint.reporter(stylish));
 });
 
-// Take any (new) assets from src/assets over to build/assets.
-gulp.task("assets", function () {
-    return gulp.src(paths.assets)
-        .pipe(newer(paths.dest + "/assets"))
-        .pipe(gulp.dest(paths.dest + "/assets"));
-});
-
 // The build task will run all the individual build-related tasks above.
 gulp.task("build", [
-    "copy-html",
-    "copy-css",
-    "copy-js-libs",
     "jslint",
-    "js",
-    "assets"
+    "js-browserify"
 ]);
 
 
 // -- RUNNING TASKS ------------------------------------------------------------
-// These gulp tasks handle everything related to running the site.  Starting a
+// These gulp tasks handle everything related to running the lib.  Starting a
 // local server, watching for changes to files, opening a browser, etc.
 
 // Watch for changes and then trigger the appropraite build task.  This also
 // starts a LiveReload server that can tell the browser to refresh the page.
 gulp.task("watch", function () {
     liveReload.listen(); // Start the LiveReload server
-    gulp.watch(paths.html, ["copy-html"]);
-    gulp.watch(paths.css, ["copy-css"]);
-    gulp.watch(paths.jsLibs, ["copy-js-libs"]);
-    gulp.watch(paths.js, ["jslint", "js"]);
-    gulp.watch(paths.assets, ["assets"]);
+    gulp.watch(paths.jsLib, ["jslint", "js-browserify"]);
 });
 
-// Start an express server that serves everything in build/ to localhost:8080/.
+// Start an express server that serves everything in examples/ & dist/ to
+// localhost:8080/.
 gulp.task("express-server", function () {
     var app = express();
     app.use(express.static(path.join(__dirname, paths.dest)));
+    app.use(express.static(path.join(__dirname, paths.examples)));
     app.listen(8080);
 });
 
@@ -143,7 +100,7 @@ gulp.task("express-server", function () {
 // browser.
 gulp.task("open", function() {
     return gulp.src(__filename)
-        .pipe(open({uri: "http://127.0.0.1:8080"}));
+        .pipe(open({ uri: "http://127.0.0.1:8080" }));
 });
 
 // The build task will run all the individual run-related tasks above.
@@ -177,8 +134,8 @@ gulp.task("deploy:gh-pages", function () {
 // These gulp tasks handle deleting files.
 
 // Delete all of the build folder contents.
-gulp.task("clean:build", function () {
-    return del(["./" + paths.dest + "/**/*"]);
+gulp.task("clean:lib", function () {
+    return del(["./lib/**/*"]);
 });
 
 // Clean up after the gh-pages deploy
