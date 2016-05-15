@@ -67,13 +67,13 @@ function setup() {
     createCanvas(400, 600);
     background(0);
 
-    bboxText = new BboxAlignedText(font, "Hey!", 30);
-
-    fill("#00A8EA");
-    noStroke();    
+    bboxText = new BboxAlignedText(font, "Hey!", 30);    
     bboxText.setRotation(PI / 4);
     bboxText.setAnchor(BboxAlignedText.ALIGN.CENTER,
                        BboxAlignedText.BASELINE.CENTER);
+
+    fill("#00A8EA");
+    noStroke();
     bboxText.draw(width / 2, height / 2, true);
 }
 ```

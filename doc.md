@@ -30,7 +30,7 @@ Creates a new BboxAlignedText object - a text object that can be drawn withanch
 
 **Example**  
 ```js
-var font, bboxText;function preload() {    font = loadFont("./assets/Regular.ttf");}function setup() {    createCanvas(400, 600);    background(0);        bboxText = new BboxAlignedText(font, "Hey!", 30);        fill("#00A8EA");    noStroke();        bboxText.setRotation(PI / 4);    bboxText.setAnchor(BboxAlignedText.ALIGN.CENTER,                        BboxAlignedText.BASELINE.CENTER);    bboxText.draw(width / 2, height / 2, true);}
+var font, bboxText;function preload() {    font = loadFont("./assets/Regular.ttf");}function setup() {    createCanvas(400, 600);    background(0);        bboxText = new BboxAlignedText(font, "Hey!", 30);        bboxText.setRotation(PI / 4);    bboxText.setAnchor(BboxAlignedText.ALIGN.CENTER,                        BboxAlignedText.BASELINE.CENTER);        fill("#00A8EA");    noStroke();    bboxText.draw(width / 2, height / 2, true);}
 ```
 <a name="BboxAlignedText+setText"></a>
 
