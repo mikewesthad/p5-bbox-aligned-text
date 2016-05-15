@@ -1,31 +1,3 @@
-p5-bbox-aligned-text
-====================
-
-A module for positioning p5.js text based on its bounding box.
-
-![Example](readme-assets/rotate-demo.gif)
-
-[p5.js](http://p5js.org/) is a wonderful creative coding library for JavaScript. The methods that p5.js provides for text placement (i.e. text anchor points) are based on a font's ascent, descent & baseline (see image below). This is exactly what you want when laying out words as legible text.
-
-Still, there are times when you would want to position text based on its exact bounding box. For example, you might have a particle system where words are particles that you want to position based on the center of the word and/or you want to do collision detection between words. (Demo code coming soon.)
-
-That's what this module provides - an easy way to position (and rotate) p5.js text based on its exact bounding box.
-
-[![Typography metrics](readme-assets/typographic-line-terms.png)](https://en.wikipedia.org/wiki/Typeface)
-
-Installation
-------------
-
-**TODO**
-
-Usage
------
-
-**TODO**
-
-API
-===
-
 <a name="BboxAlignedText"></a>
 
 ## BboxAlignedText
@@ -46,8 +18,7 @@ API
 <a name="new_BboxAlignedText_new"></a>
 
 ### new BboxAlignedText(font, text, [fontSize], [pInstance])
-Creates a new BboxAlignedText object - a text object that can be drawn with
-anchor points based on a tight bounding box around the text.
+Creates a new BboxAlignedText object - a text object that can be drawn withanchor points based on a tight bounding box around the text.
 
 
 | Param | Type | Default | Description |
@@ -59,23 +30,7 @@ anchor points based on a tight bounding box around the text.
 
 **Example**  
 ```js
-var font, bboxText;
-function preload() {
-    font = loadFont("./assets/Regular.ttf");
-}
-function setup() {
-    createCanvas(400, 600);
-    background(0);
-
-    bboxText = new BboxAlignedText(font, "Hey!", 30);
-
-    fill("#00A8EA");
-    noStroke();    
-    bboxText.setRotation(PI / 4);
-    bboxText.setAnchor(BboxAlignedText.ALIGN.CENTER,
-                       BboxAlignedText.BASELINE.CENTER);
-    bboxText.draw(width / 2, height / 2, true);
-}
+var font, bboxText;function preload() {    font = loadFont("./assets/Regular.ttf");}function setup() {    createCanvas(400, 600);    background(0);        bboxText = new BboxAlignedText(font, "Hey!", 30);        fill("#00A8EA");    noStroke();        bboxText.setRotation(PI / 4);    bboxText.setAnchor(BboxAlignedText.ALIGN.CENTER,                        BboxAlignedText.BASELINE.CENTER);    bboxText.draw(width / 2, height / 2, true);}
 ```
 <a name="BboxAlignedText+setText"></a>
 
@@ -116,8 +71,7 @@ Set rotation of text
 <a name="BboxAlignedText+setAnchor"></a>
 
 ### bboxAlignedText.setAnchor([hAlign], [vAlign])
-Set anchor point for text (horizonal and vertical alignment) relative to
-bounding box
+Set anchor point for text (horizonal and vertical alignment) relative tobounding box
 
 **Kind**: instance method of <code>[BboxAlignedText](#BboxAlignedText)</code>  
 **Access:** public  
@@ -153,9 +107,9 @@ Vertical alignment values
 
 | Name | Type | Default |
 | --- | --- | --- |
-| LEFT | <code>string</code> | <code>&quot;left&quot;</code> |
-| CENTER | <code>string</code> | <code>&quot;center&quot;</code> |
-| RIGHT | <code>string</code> | <code>&quot;right&quot;</code> |
+| LEFT | <code>string</code> | <code>&quot;left&quot;</code> | 
+| CENTER | <code>string</code> | <code>&quot;center&quot;</code> | 
+| RIGHT | <code>string</code> | <code>&quot;right&quot;</code> | 
 
 <a name="BboxAlignedText.BASELINE"></a>
 
@@ -169,7 +123,8 @@ Baseline alignment values
 
 | Name | Type | Default |
 | --- | --- | --- |
-| TOP | <code>string</code> | <code>&quot;top&quot;</code> |
-| CENTER | <code>string</code> | <code>&quot;center&quot;</code> |
-| ALPHABETIC | <code>string</code> | <code>&quot;alphabetic&quot;</code> |
-| BOTTOM | <code>string</code> | <code>&quot;bottom&quot;</code> |
+| TOP | <code>string</code> | <code>&quot;top&quot;</code> | 
+| CENTER | <code>string</code> | <code>&quot;center&quot;</code> | 
+| ALPHABETIC | <code>string</code> | <code>&quot;alphabetic&quot;</code> | 
+| BOTTOM | <code>string</code> | <code>&quot;bottom&quot;</code> | 
+
