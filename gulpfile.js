@@ -53,7 +53,10 @@ gulp.task("js-browserify", function() {
         standalone: globalName 
     })
     return b.bundle()
-        .on("error", gutil.log)
+        .on("error", function (err) {
+            gutil.log(err);
+            this.emit("end");
+        })
         .pipe(source(mainFilename))
         .pipe(buffer())
         .pipe(gulp.dest(paths.dest))
