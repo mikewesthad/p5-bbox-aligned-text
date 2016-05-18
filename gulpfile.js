@@ -110,7 +110,7 @@ gulp.task("express-server", function () {
 // browser.
 gulp.task("open", function() {
     return gulp.src(__filename)
-        .pipe(open({ uri: "http://127.0.0.1:8080" }));
+        .pipe(open({ uri: "http://127.0.0.1:8080/examples" }));
 });
 
 // The build task will run all the individual run-related tasks above.
