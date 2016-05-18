@@ -1,6 +1,6 @@
 {
-  "name": "p5-bbox-aligned-word",
-  "version": "1.0.1",
+  "name": "p5-bbox-aligned-text",
+  "version": "1.0.0",
   "description": "A p5.js module for drawing text aligned with its bounding box",
   "repository": {
     "type": "git",
