@@ -38,6 +38,7 @@ API
         * [.setTextSize(fontSize)](#BboxAlignedText+setTextSize)
         * [.setRotation(angle)](#BboxAlignedText+setRotation)
         * [.setAnchor([hAlign], [vAlign])](#BboxAlignedText+setAnchor)
+        * [.getBbox(x, y)](#BboxAlignedText+getBbox) ⇒ <code>object</code>
         * [.draw(x, y, [drawBounds])](#BboxAlignedText+draw)
     * _static_
         * [.ALIGN](#BboxAlignedText.ALIGN) : <code>enum</code>
@@ -53,9 +54,9 @@ anchor points based on a tight bounding box around the text.
 | Param | Type | Default | Description |
 | --- | --- | --- | --- |
 | font | <code>object</code> |  | p5.Font object |
-| text | <code>string</code> |  | string to display |
-| [fontSize] | <code>number</code> | <code>12</code> | font size to use for string |
-| [pInstance] | <code>object</code> | <code>window</code> | reference to p5 instance,                                                   leave blank if sketch is                                                   global |
+| text | <code>string</code> |  | String to display |
+| [fontSize] | <code>number</code> | <code>12</code> | Font size to use for string |
+| [pInstance] | <code>object</code> | <code>window</code> | Reference to p5 instance, leave blank if                                    sketch is global |
 
 **Example**  
 ```js
@@ -66,12 +67,12 @@ function preload() {
 function setup() {
     createCanvas(400, 600);
     background(0);
-
+    
     bboxText = new BboxAlignedText(font, "Hey!", 30);    
     bboxText.setRotation(PI / 4);
-    bboxText.setAnchor(BboxAlignedText.ALIGN.CENTER,
+    bboxText.setAnchor(BboxAlignedText.ALIGN.CENTER, 
                        BboxAlignedText.BASELINE.CENTER);
-
+    
     fill("#00A8EA");
     noStroke();
     bboxText.draw(width / 2, height / 2, true);
@@ -87,7 +88,7 @@ Set current text
 
 | Param | Type | Description |
 | --- | --- | --- |
-| string | <code>string</code> | text string to display |
+| string | <code>string</code> | Text string to display |
 
 <a name="BboxAlignedText+setTextSize"></a>
 
@@ -99,7 +100,7 @@ Set current text size
 
 | Param | Type | Description |
 | --- | --- | --- |
-| fontSize | <code>number</code> | text size |
+| fontSize | <code>number</code> | Text size |
 
 <a name="BboxAlignedText+setRotation"></a>
 
@@ -111,7 +112,7 @@ Set rotation of text
 
 | Param | Type | Description |
 | --- | --- | --- |
-| angle | <code>number</code> | rotation in radians |
+| angle | <code>number</code> | Rotation in radians |
 
 <a name="BboxAlignedText+setAnchor"></a>
 
@@ -124,8 +125,22 @@ bounding box
 
 | Param | Type | Default | Description |
 | --- | --- | --- | --- |
-| [hAlign] | <code>string</code> | <code>&quot;CENTER&quot;</code> | horizonal alignment |
-| [vAlign] | <code>string</code> | <code>&quot;CENTER&quot;</code> | vertical baseline |
+| [hAlign] | <code>string</code> | <code>&quot;CENTER&quot;</code> | Horizonal alignment |
+| [vAlign] | <code>string</code> | <code>&quot;CENTER&quot;</code> | Vertical baseline |
+
+<a name="BboxAlignedText+getBbox"></a>
+
+### bboxAlignedText.getBbox(x, y) ⇒ <code>object</code>
+Get the bounding box when the text is placed at the specified coordinates.
+Note: this is the unrotated bounding box!
+
+**Kind**: instance method of <code>[BboxAlignedText](#BboxAlignedText)</code>  
+**Returns**: <code>object</code> - Returns an object with properties: x, y, w, h  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| x | <code>number</code> | X coordinate |
+| y | <code>number</code> | Y coordinate |
 
 <a name="BboxAlignedText+draw"></a>
 
@@ -137,9 +152,9 @@ Draws the text particle with the specified style parameters
 
 | Param | Type | Default | Description |
 | --- | --- | --- | --- |
-| x | <code>number</code> |  | x coordinate of text anchor |
-| y | <code>number</code> |  | y coordinate of text anchor |
-| [drawBounds] | <code>boolean</code> | <code>false</code> | flag for drawing bounding box |
+| x | <code>number</code> |  | X coordinate of text anchor |
+| y | <code>number</code> |  | Y coordinate of text anchor |
+| [drawBounds] | <code>boolean</code> | <code>false</code> | Flag for drawing bounding box |
 
 <a name="BboxAlignedText.ALIGN"></a>
 
@@ -151,11 +166,11 @@ Vertical alignment values
 **Read only**: true  
 **Properties**
 
-| Name | Type | Default |
-| --- | --- | --- |
-| LEFT | <code>string</code> | <code>&quot;left&quot;</code> |
-| CENTER | <code>string</code> | <code>&quot;center&quot;</code> |
-| RIGHT | <code>string</code> | <code>&quot;right&quot;</code> |
+| Name | Type | Default | Description |
+| --- | --- | --- | --- |
+| LEFT | <code>string</code> | <code>&quot;left&quot;</code> | Draw from the left of the bbox |
+| CENTER | <code>string</code> | <code>&quot;center&quot;</code> | Draw from the center of the bbox |
+| RIGHT | <code>string</code> | <code>&quot;right&quot;</code> | Draw from the right of the bbox |
 
 <a name="BboxAlignedText.BASELINE"></a>
 
@@ -167,9 +182,11 @@ Baseline alignment values
 **Read only**: true  
 **Properties**
 
-| Name | Type | Default |
-| --- | --- | --- |
-| TOP | <code>string</code> | <code>&quot;top&quot;</code> |
-| CENTER | <code>string</code> | <code>&quot;center&quot;</code> |
-| ALPHABETIC | <code>string</code> | <code>&quot;alphabetic&quot;</code> |
-| BOTTOM | <code>string</code> | <code>&quot;bottom&quot;</code> |
+| Name | Type | Default | Description |
+| --- | --- | --- | --- |
+| BOX_TOP | <code>string</code> | <code>&quot;top&quot;</code> | Draw from the top of the bbox |
+| BOX_CENTER | <code>string</code> | <code>&quot;center&quot;</code> | Draw from the center of the bbox |
+| BOM_BOTTOM | <code>string</code> | <code>&quot;bottom&quot;</code> | Draw from the bottom of the bbox |
+| FONT_CENTER | <code>string</code> | <code>&quot;font_center&quot;</code> | Draw from half the height of the font. Specifically the height is calculated as: ascent + descent. |
+| ALPHABETIC | <code>string</code> | <code>&quot;alphabetic&quot;</code> | Draw from the the normal font baseline |
+
