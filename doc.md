@@ -11,7 +11,7 @@
         * [.setRotation(angle)](#BboxAlignedText+setRotation)
         * [.setAnchor([hAlign], [vAlign])](#BboxAlignedText+setAnchor)
         * [.getBbox(x, y)](#BboxAlignedText+getBbox) ⇒ <code>object</code>
-        * [.draw(x, y, [drawBounds])](#BboxAlignedText+draw)
+        * [.draw([x], [y], [drawBounds])](#BboxAlignedText+draw)
     * _static_
         * [.ALIGN](#BboxAlignedText.ALIGN) : <code>enum</code>
         * [.BASELINE](#BboxAlignedText.BASELINE) : <code>enum</code>
@@ -31,7 +31,7 @@ Creates a new BboxAlignedText object - a text object that can be drawn withanch
 
 **Example**  
 ```js
-var font, bboxText;function preload() {    font = loadFont("./assets/Regular.ttf");}function setup() {    createCanvas(400, 600);    background(0);        bboxText = new BboxAlignedText(font, "Hey!", 30);        bboxText.setRotation(PI / 4);    bboxText.setAnchor(BboxAlignedText.ALIGN.CENTER,                        BboxAlignedText.BASELINE.CENTER);        fill("#00A8EA");    noStroke();    bboxText.draw(width / 2, height / 2, true);}
+var font, bboxText;function preload() {    font = loadFont("./assets/Regular.ttf");}function setup() {    createCanvas(400, 600);    background(0);        bboxText = new BboxAlignedText(font, "Hey!", 30);        bboxText.setRotation(PI / 4);    bboxText.setAnchor(BboxAlignedText.ALIGN.BOX_CENTER,                        BboxAlignedText.BASELINE.BOX_CENTER);        fill("#00A8EA");    noStroke();    bboxText.draw(width / 2, height / 2, true);}
 ```
 <a name="BboxAlignedText+setText"></a>
 
@@ -97,16 +97,16 @@ Get the bounding box when the text is placed at the specified coordinates.Note:
 
 <a name="BboxAlignedText+draw"></a>
 
-### bboxAlignedText.draw(x, y, [drawBounds])
-Draws the text particle with the specified style parameters
+### bboxAlignedText.draw([x], [y], [drawBounds])
+Draws the text particle with the specified style parameters. Note: this isgoing to set the textFont, textSize & rotation before drawing. You should setthe color/stroke/fill that you want before drawing. This function will cleanup after itself and reset styling back to what it was before it was called.
 
 **Kind**: instance method of <code>[BboxAlignedText](#BboxAlignedText)</code>  
 **Access:** public  
 
 | Param | Type | Default | Description |
 | --- | --- | --- | --- |
-| x | <code>number</code> |  | X coordinate of text anchor |
-| y | <code>number</code> |  | Y coordinate of text anchor |
+| [x] | <code>number</code> | <code>0</code> | X coordinate of text anchor |
+| [y] | <code>number</code> | <code>0</code> | Y coordinate of text anchor |
 | [drawBounds] | <code>boolean</code> | <code>false</code> | Flag for drawing bounding box |
 
 <a name="BboxAlignedText.ALIGN"></a>
@@ -121,9 +121,9 @@ Vertical alignment values
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
-| LEFT | <code>string</code> | <code>&quot;left&quot;</code> | Draw from the left of the bbox |
-| CENTER | <code>string</code> | <code>&quot;center&quot;</code> | Draw from the center of the bbox |
-| RIGHT | <code>string</code> | <code>&quot;right&quot;</code> | Draw from the right of the bbox |
+| BOX_LEFT | <code>string</code> | <code>&quot;box_left&quot;</code> | Draw from the left of the bbox |
+| BOX_CENTER | <code>string</code> | <code>&quot;box_center&quot;</code> | Draw from the center of the bbox |
+| BOX_RIGHT | <code>string</code> | <code>&quot;box_right&quot;</code> | Draw from the right of the bbox |
 
 <a name="BboxAlignedText.BASELINE"></a>
 
@@ -137,9 +137,9 @@ Baseline alignment values
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
-| BOX_TOP | <code>string</code> | <code>&quot;top&quot;</code> | Draw from the top of the bbox |
-| BOX_CENTER | <code>string</code> | <code>&quot;center&quot;</code> | Draw from the center of the bbox |
-| BOM_BOTTOM | <code>string</code> | <code>&quot;bottom&quot;</code> | Draw from the bottom of the bbox |
+| BOX_TOP | <code>string</code> | <code>&quot;box_top&quot;</code> | Draw from the top of the bbox |
+| BOX_CENTER | <code>string</code> | <code>&quot;box_center&quot;</code> | Draw from the center of the bbox |
+| BOX_BOTTOM | <code>string</code> | <code>&quot;box_bottom&quot;</code> | Draw from the bottom of the bbox |
 | FONT_CENTER | <code>string</code> | <code>&quot;font_center&quot;</code> | Draw from half the height of the font. Specifically the height is calculated as: ascent + descent. |
 | ALPHABETIC | <code>string</code> | <code>&quot;alphabetic&quot;</code> | Draw from the the normal font baseline |
 
