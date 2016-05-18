@@ -5,13 +5,9 @@ html, body, canvas {
     margin: 0; 
 }
 
-body {
-    text-align: center;
-}
-
-canvas {  
-    display: inline-block;
+canvas {
+    display: block;
+    margin: 20px auto;
     border: 1px solid #BDBDBD;
     border-radius: 3px;
-    margin: 20px;
 }
