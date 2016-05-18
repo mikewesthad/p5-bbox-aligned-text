@@ -22,6 +22,7 @@
     "url": "https://github.com/mikewesthad/p5-bbox-aligned-text/issues",
     "email": "michaelwesthadley@gmail.com"
   },
+  "main": "lib/bbox-aligned-text.js",
   "devDependencies": {
     "browserify": "^13.0.0",
     "del": "^2.2.0",
