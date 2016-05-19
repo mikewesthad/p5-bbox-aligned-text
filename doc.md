@@ -11,6 +11,7 @@
         * [.setRotation(angle)](#BboxAlignedText+setRotation)
         * [.setAnchor([hAlign], [vAlign])](#BboxAlignedText+setAnchor)
         * [.getBbox(x, y)](#BboxAlignedText+getBbox) ⇒ <code>object</code>
+        * [.getTextPoints(x, y, [options])](#BboxAlignedText+getTextPoints) ⇒ <code>array</code>
         * [.draw([x], [y], [drawBounds])](#BboxAlignedText+draw)
     * _static_
         * [.ALIGN](#BboxAlignedText.ALIGN) : <code>enum</code>
@@ -85,7 +86,7 @@ Set anchor point for text (horizonal and vertical alignment) relative toboundin
 <a name="BboxAlignedText+getBbox"></a>
 
 ### bboxAlignedText.getBbox(x, y) ⇒ <code>object</code>
-Get the bounding box when the text is placed at the specified coordinates.Note: this is the unrotated bounding box!
+Get the bounding box when the text is placed at the specified coordinates.Note: this is the unrotated bounding box! TODO: Fix this.
 
 **Kind**: instance method of <code>[BboxAlignedText](#BboxAlignedText)</code>  
 **Returns**: <code>object</code> - Returns an object with properties: x, y, w, h  
@@ -94,6 +95,20 @@ Get the bounding box when the text is placed at the specified coordinates.Note:
 | --- | --- | --- |
 | x | <code>number</code> | X coordinate |
 | y | <code>number</code> | Y coordinate |
+
+<a name="BboxAlignedText+getTextPoints"></a>
+
+### bboxAlignedText.getTextPoints(x, y, [options]) ⇒ <code>array</code>
+Get an array of points that follow along the text path. This will take intoconsideration the current alignment settings.Note: this is a thin wrapper around a p5 method and doesn't handle unrotatedtext! TODO: Fix this.
+
+**Kind**: instance method of <code>[BboxAlignedText](#BboxAlignedText)</code>  
+**Returns**: <code>array</code> - An array of points, each with x, y & alpha (the path angle)  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| x | <code>number</code> | X coordinate |
+| y | <code>number</code> | Y coordinate |
+| [options] | <code>object</code> | An object that can have:                            - sampleFactor: ratio of path-length to number of                              samples (default=0.25). Higher values yield more                              points and are therefore more precise.                             - simplifyThreshold: if set to a non-zero value,                              collinear points will be removed. The value                               represents the threshold angle to use when                              determining whether two edges are collinear. |
 
 <a name="BboxAlignedText+draw"></a>
 
