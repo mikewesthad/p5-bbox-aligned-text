@@ -35,7 +35,7 @@
         "inverseNav": false,
         "outputSourceFiles": true,
         "outputSourcePath": true,
-        "syntaxTheme": "dark"
+        "syntaxTheme": "default"
     },
     "markdown": {
         "parser": "gfm",

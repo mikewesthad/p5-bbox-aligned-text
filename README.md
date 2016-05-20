@@ -3,7 +3,7 @@ Bounding Box Aligned Text
 
 A JavaScript module for positioning [p5.js](//p5js.org/) text based on its bounding box. If you are looking to go just straight to the API documentation, you'll want to start here: [BboxAlignedText](//mikewesthad.com/p5-bbox-aligned-text/docs/BboxAlignedText.html).
 
-(Note: if you are viewing this on GitHub, you might want to check out the HTML documentation [here](//mikewesthad.com/p5-bbox-aligned-text/docs/).)
+(Note: if you are viewing this on GitHub or NPM, you might want to check out the HTML documentation [here](//mikewesthad.com/p5-bbox-aligned-text/docs/).)
 
 ## Introduction
 
@@ -55,3 +55,7 @@ Or, if you are using browserify with your project, you can import the constructo
 ```
 var BboxText = require("p5-bbox-aligned-text");
 ```
+
+### Full API Documentation
+
+Documentation is online [here](//mikewesthad.com/p5-bbox-aligned-text/docs/).
