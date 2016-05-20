@@ -56,6 +56,6 @@ Or, if you are using browserify with your project, you can import the constructo
 var BboxText = require("p5-bbox-aligned-text");
 ```
 
-### Full API Documentation
+## Full API Documentation
 
-Documentation is online [here](//mikewesthad.com/p5-bbox-aligned-text/docs/).
+Documentation is online [here](//mikewesthad.com/p5-bbox-aligned-text/docs/BboxAlignedText.html).
