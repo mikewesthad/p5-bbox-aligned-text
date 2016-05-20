@@ -68,8 +68,6 @@
 
 
 
-    <h3>p5-bbox-aligned-text 1.2.0</h3>
-
 
 
 
@@ -86,21 +84,22 @@
 
 
     <section class="readme-section">
-        <article><h1>Bounding Box Aligned Text</h1><p>A JavaScript module for positioning <a href="http://p5js.org/">p5.js</a> text based on its bounding box. If you are looking to just straight to the API documentation, you'll want to start here: <a href="BboxAlignedText.html"><code>BboxAlignedText</code></a>.</p>
-<h2>Examples</h2><p>Example 1 &amp; 2 <a href="https://www.mikewesthad.com/p5-bbox-aligned-text/examples/02-instance-p5-rotating-words/">(live demo)</a>:</p>
-<p><a href="https://www.mikewesthad.com/p5-bbox-aligned-text/examples/02-instance-p5-rotating-words/"><img src="images/example-2.gif" alt="Example 1 &amp; 2"></a></p>
-<p>Example 3 <a href="https://www.mikewesthad.com/p5-bbox-aligned-text/examples/03-global-p5-text-points/">(live version)</a>:</p>
-<p><a href="https://www.mikewesthad.com/p5-bbox-aligned-text/examples/03-global-p5-text-points/"><img src="images/example-3.gif" alt="Example 3"></a>:</p>
-<h2>Introduction</h2><p><a href="http://p5js.org/">p5.js</a> is a wonderful creative coding library for JavaScript. The methods that p5.js provides for text placement (i.e. text anchor points) are based on a font's ascent, descent &amp; baseline (see &quot;Typography Metrics&quot;). This is exactly what you want when laying out words as legible text.</p>
+        <article><h1>Bounding Box Aligned Text</h1><p>A JavaScript module for positioning <a href="//p5js.org/">p5.js</a> text based on its bounding box. If you are looking to go just straight to the API documentation, you'll want to start here: <a href="//mikewesthad.com/p5-bbox-aligned-text/docs/BboxAlignedText.html">BboxAlignedText</a>.</p>
+<p>(Note: if you are viewing this on GitHub, you might want to check out the HTML documentation <a href="//mikewesthad.com/p5-bbox-aligned-text/docs/">here</a>.)</p>
+<h2>Introduction</h2><p><a href="//p5js.org/">p5.js</a> is a wonderful creative coding library for JavaScript. The methods that p5.js provides for text placement (i.e. text anchor points) are based on a font's ascent, descent &amp; baseline (see &quot;Typography Metrics&quot;). This is exactly what you want when laying out words as legible text.</p>
 <p>Still, there are times when you would want to position text based on its exact bounding box. For example, you might have a particle system where words are particles that you want to position based on the center of the word and/or you want to do collision detection between words. (Demo code coming soon.)</p>
 <p>That's what this module provides - an easy way to position (and rotate) p5.js text based on its exact bounding box.</p>
-<h2>Typography Metrics</h2><p><br><a href="https://en.wikipedia.org/wiki/Typeface"><img src="images/typographic-line-terms.png" alt="Typography metrics">]</a></p>
+<h2>Examples</h2><p>Example 1 &amp; 2 <a href="//www.mikewesthad.com/p5-bbox-aligned-text/examples/02-instance-p5-rotating-words/">(live demo)</a>:</p>
+<p><a href="//www.mikewesthad.com/p5-bbox-aligned-text/examples/02-instance-p5-rotating-words/"><img src="images/example-2.gif" alt="Example 1 &amp; 2"></a></p>
+<p>Example 3 <a href="//www.mikewesthad.com/p5-bbox-aligned-text/examples/03-global-p5-text-points/">(live version)</a>:</p>
+<p><a href="//www.mikewesthad.com/p5-bbox-aligned-text/examples/03-global-p5-text-points/"><img src="images/example-3.gif" alt="Example 3"></a>:</p>
+<h2>Typography Metrics</h2><p><br><a href="//en.wikipedia.org/wiki/Typeface"><img src="images/typographic-line-terms.png" alt="Typography metrics">]</a></p>
 <h2>Installation</h2><h3>Standalone Script</h3><p>If you just want the standalone script to drop into a project:</p>
 <ul>
-<li>Unminified: <a href="http://mikewesthad.com/p5-bbox-aligned-text/dist/bbox-aligned-text.js">bbox-aligned-text.js</a></li>
-<li>Minified: <a href="http://mikewesthad.com/p5-bbox-aligned-text/dist/bbox-aligned-text.min.js">bbox-aligned-text.min.js</a></li>
+<li>Unminified: <a href="//mikewesthad.com/p5-bbox-aligned-text/dist/bbox-aligned-text.js">bbox-aligned-text.js</a></li>
+<li>Minified: <a href="//mikewesthad.com/p5-bbox-aligned-text/dist/bbox-aligned-text.min.js">bbox-aligned-text.min.js</a></li>
 </ul>
-<h3>NPM</h3><p>If you have <a href="https://nodejs.org/en/">Node.js</a> &amp; <a href="https://www.npmjs.com/">NPM</a> (packaged with Node) installed, open a terminal in your project and run:</p>
+<h3>NPM</h3><p>If you have <a href="//nodejs.org/en/">Node.js</a> &amp; <a href="//www.npmjs.com/">NPM</a> (packaged with Node) installed, open a terminal in your project and run:</p>
 <pre class="prettyprint source"><code>npm install p5-bbox-aligned-text</code></pre><p>This will install the module in <code>./node_modules/p5-bbox-aligned-text</code>. You can then include the code into your project like this:</p>
 <pre class="prettyprint source"><code>&lt;script src=&quot;./node_modules/p5-bbox-aligned-text/dist/p5-bbox-aligned-text/bbox-aligned-text.min.js&quot;>&lt;/script></code></pre><p>Or, if you are using browserify with your project, you can import the constructor function in your JS via:</p>
 <pre class="prettyprint source"><code>var BboxText = require(&quot;p5-bbox-aligned-text&quot;);</code></pre></article>
@@ -151,7 +150,7 @@
 <span class="jsdoc-message">
 	Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0</a>
 	
-		on 2016-05-19T17:02:07-05:00
+		on 2016-05-19T20:59:19-05:00
 	
 	using the <a href="https://github.com/docstrap/docstrap">DocStrap template</a>.
 </span>
