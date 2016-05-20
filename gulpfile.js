@@ -20,6 +20,7 @@ var fs = require("fs");
 var runSequence = require("run-sequence");
 var gulpif = require("gulp-if");
 var rename = require("gulp-rename");
+var exec = require('child_process').exec;
 
 // Check the command line to see if this is a production build
 var isProduction = (gutil.env.p || gutil.env.production);
@@ -34,7 +35,14 @@ var paths = {
     examples: "examples/",
     jsLib: ["lib/**/*.js"],
     jsEntry: ["lib/" + mainFilename],
-    dest: "dist"
+    dest: "dist",
+    jsdoc: {
+        config: "conf.json",
+        entry: "lib/",
+        dest: "docs/",
+        staticFiles: "docs/static-files",
+        template: "node_modules/ink-docstrap/template"
+    }
 };
 
 
@@ -76,10 +84,34 @@ gulp.task("jslint", function() {
         .pipe(jshint.reporter(stylish));
 });
 
+// Run jsdoc from terminal
+gulp.task("jsdoc", function (callback) {
+    var commands = [
+        "jsdoc",
+        paths.jsdoc.entry,
+        "--configure " + paths.jsdoc.config,
+        "--destination " + paths.jsdoc.dest,
+        "--template " + paths.jsdoc.template
+    ];
+    exec(commands.join(" "), function (err, stdout, stderr) {
+        if (err) callback(err);
+        callback();
+    });
+});
+
+// Copy any static files needed for jsdoc (images/etc.). The static options that
+// jsdoc provides don't give enough control over src->dest paths.
+gulp.task("jsdoc-static", function (callback) {
+    return gulp.src("images/**", { base: "." })
+        .pipe(gulp.dest("docs/"));
+});
+
 // The build task will run all the individual build-related tasks above.
 gulp.task("build", [
     "jslint",
-    "js-browserify"
+    "js-browserify",
+    "jsdoc",
+    "jsdoc-static"
 ]);
 
 
@@ -91,7 +123,9 @@ gulp.task("build", [
 // starts a LiveReload server that can tell the browser to refresh the page.
 gulp.task("watch", function () {
     liveReload.listen(); // Start the LiveReload server
-    gulp.watch(paths.jsLib, ["jslint", "js-browserify"]);
+    gulp.watch(paths.jsLib, ["jslint", "js-browserify", "jsdoc"]);
+    gulp.watch(paths.jsdoc.config, ["jsdoc"]);
+    gulp.watch("images/**", ["jsdoc-static"]);
 });
 
 // Start an express server that serves everything in examples/ & dist/ to
@@ -103,6 +137,9 @@ gulp.task("express-server", function () {
     // Serve up dist/ on the server, mounted at "dist/". This way the examples
     // appear to be looking in the right place for the script.
     app.use("/" + paths.dest, express.static(path.join(__dirname, paths.dest)));
+    // Serve up the documentation
+    app.use("/" + paths.jsdoc.dest, express.static(path.join(__dirname, 
+                                                   paths.jsdoc.dest)));
     app.listen(8080);
 });
 
@@ -127,7 +164,7 @@ gulp.task("run", [
 
 // Push files in build/ to a gh-pages branch
 gulp.task("push:gh-pages", function () {
-    return gulp.src(["./examples/**/*.*", "./dist/**/*.*"], { base: "." })
+    return gulp.src(["./examples/**/*.*", "./dist/**/*.*", "./docs/**/*.*"], { base: "." })
         .pipe(ghPages({
             remoteUrl: "https://github.com/mikewesthad/p5-bbox-aligned-text.git"
         }));
@@ -142,14 +179,19 @@ gulp.task("deploy:gh-pages", function () {
 // -- CLEANING TASKS ----------------------------------------------------------
 // These gulp tasks handle deleting files.
 
-// Delete all of the build folder contents.
-gulp.task("clean:lib", function () {
-    return del(["./lib/**/*"]);
+// Clean up the dist folder
+gulp.task("clean:dist", function () {
+    return del(["./dist"]);
 });
 
 // Clean up after the gh-pages deploy
 gulp.task("clean:publish", function () {
     return del(["./.publish"]);
+});
+
+// Clean up the doc's folder
+gulp.task("clean:jsdoc", function () {
+    return del(["docs/**", "!docs"]);
 });
 
 

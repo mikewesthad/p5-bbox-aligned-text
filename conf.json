@@ -1,0 +1,45 @@
+{
+    "tags": {
+        "allowUnknownTags": true
+    },
+    "plugins": ["plugins/markdown"],
+    "opts": {
+        "recurse": true,
+        "encoding": "utf8",
+        "readme": "./README.md"
+    },
+    "source": {
+        "includePattern": ".+\\.js(doc|x)?$",
+        "excludePattern": "(^|\\/|\\\\)_"
+    },
+    "plugins": [],
+    "templates": {
+        "cleverLinks": true,
+        "monospaceLinks": true,
+        "openGraph": {
+            "title": "",
+            "image": "",
+            "site_name": "",
+            "url": "",
+            "type": "website"
+        },
+        "meta": {
+            "title": "",
+            "description": "",
+            "keyword": ""
+        },
+        "linenums": true,
+        "copyright":  "Mike Hadley Copyright © 2016",
+        "navType": "vertical",
+        "theme": "cosmo",
+        "inverseNav": false,
+        "outputSourceFiles": true,
+        "outputSourcePath": true,
+        "syntaxTheme": "dark"
+    },
+    "markdown": {
+        "parser": "gfm",
+        "hardwrap": true,
+        "tags": ["examples"]
+    }
+}

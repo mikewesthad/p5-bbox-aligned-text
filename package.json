@@ -38,6 +38,7 @@
     "gulp-sourcemaps": "^1.6.0",
     "gulp-uglify": "^1.5.3",
     "gulp-util": "^3.0.7",
+    "ink-docstrap": "^1.1.4",
     "jshint": "^2.9.1",
     "jshint-stylish": "^2.1.0",
     "run-sequence": "^1.1.5",
