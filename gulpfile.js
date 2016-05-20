@@ -124,7 +124,7 @@ gulp.task("build", [
 gulp.task("watch", function () {
     liveReload.listen(); // Start the LiveReload server
     gulp.watch(paths.jsLib, ["jslint", "js-browserify", "jsdoc"]);
-    gulp.watch(paths.jsdoc.config, ["jsdoc"]);
+    gulp.watch([paths.jsdoc.config, "README.md"], ["jsdoc"]);
     gulp.watch("images/**", ["jsdoc-static"]);
 });
 
