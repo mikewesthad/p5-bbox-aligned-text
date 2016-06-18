@@ -68,17 +68,21 @@
 <section>
     <article>
         <pre
-            class="sunlight-highlight-javascript linenums">module.exports = BboxAlignedText;
+            class="sunlight-highlight-javascript linenums">var utils = require("./utils.js");
+
+module.exports = BboxAlignedText;
 
 /**
  * Creates a new BboxAlignedText object - a text object that can be drawn with
  * anchor points based on a tight bounding box around the text.
  * @constructor
- * @param {object} font               p5.Font object
- * @param {string} text               String to display
- * @param {number} [fontSize=12]      Font size to use for string
- * @param {object} [pInstance=window] Reference to p5 instance, leave blank if
- *                                    sketch is global
+ * @param {object} font - p5.Font object
+ * @param {string} text - String to display
+ * @param {number} [fontSize=12] - Font size to use for string
+ * @param {number} [x=0] - Initial x location
+ * @param {number} [y=0] - Initial y location
+ * @param {object} [pInstance=window] - Reference to p5 instance, leave blank if
+ *                                      sketch is global
  * @example
  * var font, bboxText;
  * function preload() {
@@ -88,21 +92,23 @@
  *     createCanvas(400, 600);
  *     background(0);
  *     
- *     bboxText = new BboxAlignedText(font, "Hey!", 30);    
+ *     bboxText = new BboxAlignedText(font, "Hey!", 0, 0, 30);    
  *     bboxText.setRotation(PI / 4);
  *     bboxText.setAnchor(BboxAlignedText.ALIGN.BOX_CENTER, 
  *                        BboxAlignedText.BASELINE.BOX_CENTER);
  *     
  *     fill("#00A8EA");
  *     noStroke();
- *     bboxText.draw(width / 2, height / 2, true);
+ *     bboxText.draw(width / 2, height / 2);
  * }
  */
-function BboxAlignedText(font, text, fontSize, pInstance) {
+function BboxAlignedText(font, text, fontSize, x, y, pInstance) {
     this._font = font;
     this._text = text;
-    this._fontSize = (fontSize !== undefined) ? fontSize : 12;
-    this.p = pInstance || window; // If instance is omitted, assume global scope
+    this._x = utils.default(x, 0);
+    this._y = utils.default(y, 0);
+    this._fontSize = utils.default(fontSize, 12);
+    this._p = utils.default(pInstance, window);
     this._rotation = 0;
     this._hAlign = BboxAlignedText.ALIGN.BOX_CENTER;
     this._vAlign = BboxAlignedText.BASELINE.BOX_CENTER;
@@ -151,53 +157,133 @@ BboxAlignedText.BASELINE = {
 /**
  * Set current text
  * @public
- * @param {string} string Text string to display
+ * @param {string} string - Text string to display
+ * @returns {this} Useful for chaining
  */
 BboxAlignedText.prototype.setText = function(string) {
     this._text = string;
     this._calculateMetrics(false);
+    return this;
+};
+
+/**
+ * Set the text position
+ * @public
+ * @param {number} x - X position
+ * @param {number} x - Y position
+ * @returns {this} Useful for chaining
+ */
+BboxAlignedText.prototype.setPosition = function(x, y) {
+    this._x = utils.default(x, this._x);
+    this._y = utils.default(y, this._y);
+    return this;
+};
+
+/**
+ * Get the text position
+ * @public
+ * @return {object} Returns an object with properties: x, y
+ */
+BboxAlignedText.prototype.getPosition = function() {
+    return {
+        x: this._x,
+        y: this._y
+    };
 };
 
 /**
  * Set current text size
  * @public
  * @param {number} fontSize Text size
+ * @returns {this} Useful for chaining
  */
 BboxAlignedText.prototype.setTextSize = function(fontSize) {
     this._fontSize = fontSize;
     this._calculateMetrics(true);
+    return this;
 };
 
 /**
  * Set rotation of text
  * @public
- * @param {number} angle Rotation in radians
+ * @param {number} angle - Rotation in radians
+ * @returns {this} Useful for chaining
  */
 BboxAlignedText.prototype.setRotation = function(angle) {
-    this._rotation = angle;
+    this._rotation = utils.default(angle, this._rotation);
+    return this;
+};
+
+/**
+ * Get rotation of text
+ * @public
+ * @returns {number} Rotation in radians
+ */
+BboxAlignedText.prototype.getRotation = function(angle) {
+    return this._rotation;
+};
+
+/**
+ * Set the p instance that is used for drawing
+ * @public
+ * @param {object} pInstance - Instance of p5 for drawing. This is only needed
+ *                             when using an offscreen renderer or when using p5
+ *                             in instance mode.
+ * @returns {this} Useful for chaining
+ */
+BboxAlignedText.prototype.setPInstance = function(p) {
+    this._p = utils.default(p, this._p);
+    return this;
+};
+
+/**
+ * Get rotation of text
+ * @public
+ * @returns {object} Instance of p5 that is being used for drawing
+ */
+BboxAlignedText.prototype.getPInstance = function() {
+    return this._p;
 };
 
 /**
  * Set anchor point for text (horizonal and vertical alignment) relative to
  * bounding box
  * @public
- * @param {string} [hAlign=CENTER] Horizonal alignment
- * @param {string} [vAlign=CENTER] Vertical baseline
+ * @param {string} [hAlign=CENTER] - Horizonal alignment
+ * @param {string} [vAlign=CENTER] - Vertical baseline
+ * @param {boolean} [updatePosition=false] - If set to true, the position of the
+ *                                           the text will be shifted so that
+ *                                           the text will be drawn in the same
+ *                                           place it was before calling 
+ *                                           setAnchor.
+ * @returns {this} Useful for chaining
  */
-BboxAlignedText.prototype.setAnchor = function(hAlign, vAlign) {
-    this._hAlign = hAlign || BboxAlignedText.ALIGN.CENTER;
-    this._vAlign = vAlign || BboxAlignedText.BASELINE.CENTER;
+BboxAlignedText.prototype.setAnchor = function(hAlign, vAlign, updatePosition) {
+    var oldPos = this._calculateAlignedCoords(this._x, this._y);
+    this._hAlign = utils.default(hAlign, BboxAlignedText.ALIGN.CENTER);
+    this._vAlign = utils.default(vAlign, BboxAlignedText.BASELINE.CENTER);
+    if (updatePosition) {
+        var newPos = this._calculateAlignedCoords(this._x, this._y);
+        this._x += oldPos.x - newPos.x;
+        this._y += oldPos.y - newPos.y;
+    }
+    return this;
 };
 
 /**
  * Get the bounding box when the text is placed at the specified coordinates.
  * Note: this is the unrotated bounding box! TODO: Fix this.
- * @param  {number} x X coordinate
- * @param  {number} y Y coordinate
- * @return {object}   Returns an object with properties: x, y, w, h
+ * @param {number} [x=current x] - A new x coordinate of text anchor. This
+ *                                 will change the text's x position 
+ *                                 permanently. 
+ * @param {number} [y=current y] - A new y coordinate of text anchor. This
+ *                                 will change the text's x position 
+ *                                 permanently.
+ * @return {object} Returns an object with properties: x, y, w, h
  */
 BboxAlignedText.prototype.getBbox = function(x, y) {
-    var pos = this._calculateAlignedCoords(x, y);
+    this.setPosition(x, y);
+    var pos = this._calculateAlignedCoords(this._x, this._y);
     return {
         x: pos.x + this._boundsOffset.x,
         y: pos.y + this._boundsOffset.y,
@@ -211,21 +297,28 @@ BboxAlignedText.prototype.getBbox = function(x, y) {
  * consideration the current alignment settings.
  * Note: this is a thin wrapper around a p5 method and doesn't handle unrotated
  * text! TODO: Fix this.
- * @param  {number} x         X coordinate
- * @param  {number} y         Y coordinate
- * @param  {object} [options] An object that can have:
- *                            - sampleFactor: ratio of path-length to number of
- *                              samples (default=0.25). Higher values yield more
- *                              points and are therefore more precise. 
- *                            - simplifyThreshold: if set to a non-zero value,
- *                              collinear points will be removed. The value 
- *                              represents the threshold angle to use when
- *                              determining whether two edges are collinear.
+ * @param {number} [x=current x] - A new x coordinate of text anchor. This
+ *                                 will change the text's x position 
+ *                                 permanently. 
+ * @param {number} [y=current y] - A new y coordinate of text anchor. This
+ *                                 will change the text's x position 
+ *                                 permanently.
+ * @param {object} [options] - An object that can have:
+ *                               - sampleFactor: ratio of path-length to number
+ *                                 of samples (default=0.25). Higher values 
+ *                                 yield morepoints and are therefore more 
+ *                                 precise. 
+ *                               - simplifyThreshold: if set to a non-zero 
+ *                                 value, collinear points will be removed. The
+ *                                 value represents the threshold angle to use
+ *                                 when determining whether two edges are 
+ *                                 collinear.
  * @return {array} An array of points, each with x, y &amp; alpha (the path angle)
  */
 BboxAlignedText.prototype.getTextPoints = function(x, y, options) {
-    var points = this._font.textToPoints(this._text, x, y, this._fontSize, 
-                                         options);
+    this.setPosition(x, y);
+    var points = this._font.textToPoints(this._text, this._x, this._y, 
+        this._fontSize, options);
     for (var i = 0; i &lt; points.length; i += 1) {
         var pos = this._calculateAlignedCoords(points[i].x, points[i].y);
         points[i].x = pos.x;
@@ -240,49 +333,52 @@ BboxAlignedText.prototype.getTextPoints = function(x, y, options) {
  * the color/stroke/fill that you want before drawing. This function will clean
  * up after itself and reset styling back to what it was before it was called.
  * @public
- * @param  {number}  [x=0]              X coordinate of text anchor
- * @param  {number}  [y=0]              Y coordinate of text anchor
- * @param  {boolean} [drawBounds=false] Flag for drawing bounding box
+ * @param {number} [x=current x] - A new x coordinate of text anchor. This will
+ *                                change the text's x position permanently. 
+ * @param {number} [y=current y] - A new y coordinate of text anchor. This will
+ *                                 change the text's x position permanently.
+ * @param {boolean} [drawBounds=false] - Flag for drawing bounding box
  */
 BboxAlignedText.prototype.draw = function(x, y, drawBounds) {
-    drawBounds = drawBounds || false;
+    drawBounds = utils.default(drawBounds, false);
+    this.setPosition(x, y);
     var pos = {
-        x: (x !== undefined) ? x : 0, 
-        y: (y !== undefined) ? y : 0
+        x: this._x, 
+        y: this._y
     };
 
-    this.p.push();
+    this._p.push();
 
         if (this._rotation) {
             pos = this._calculateRotatedCoords(pos.x, pos.y, this._rotation);
-            this.p.rotate(this._rotation);
+            this._p.rotate(this._rotation);
         }
 
         pos = this._calculateAlignedCoords(pos.x, pos.y);
 
-        this.p.textAlign(this.p.LEFT, this.p.BASELINE);
-        this.p.textFont(this._font);
-        this.p.textSize(this._fontSize);
-        this.p.text(this._text, pos.x, pos.y);
+        this._p.textAlign(this._p.LEFT, this._p.BASELINE);
+        this._p.textFont(this._font);
+        this._p.textSize(this._fontSize);
+        this._p.text(this._text, pos.x, pos.y);
 
         if (drawBounds) {
-            this.p.stroke(200);
+            this._p.stroke(200);
             var boundsX = pos.x + this._boundsOffset.x;
             var boundsY = pos.y + this._boundsOffset.y;
-            this.p.noFill();
-            this.p.rect(boundsX, boundsY, this.width, this.height);            
+            this._p.noFill();
+            this._p.rect(boundsX, boundsY, this.width, this.height);            
         }
 
-    this.p.pop();
+    this._p.pop();
 };
 
 /**
  * Project the coordinates (x, y) into a rotated coordinate system
  * @private
- * @param  {number} x     X coordinate (in unrotated space)
- * @param  {number} y     Y coordinate (in unrotated space)
- * @param  {number} angle Radians of rotation to apply
- * @return {object}       Object with x &amp; y properties
+ * @param {number} x - X coordinate (in unrotated space)
+ * @param {number} y - Y coordinate (in unrotated space)
+ * @param {number} angle - Radians of rotation to apply
+ * @return {object} Object with x &amp; y properties
  */
 BboxAlignedText.prototype._calculateRotatedCoords = function (x, y, angle) {  
     var rx = Math.cos(angle) * x + Math.cos(Math.PI / 2 - angle) * y;
@@ -296,9 +392,9 @@ BboxAlignedText.prototype._calculateRotatedCoords = function (x, y, angle) {
  * this function takes a desired pos &amp; alignment and returns the appropriate
  * coordinates for the left &amp; baseline.
  * @private
- * @param  {number} x      X coordinate
- * @param  {number} y      Y coordinate
- * @return {object}        Object with x &amp; y properties
+ * @param {number} x - X coordinate
+ * @param {number} y - Y coordinate
+ * @return {object} Object with x &amp; y properties
  */
 BboxAlignedText.prototype._calculateAlignedCoords = function(x, y) {
     var newX, newY;
@@ -416,7 +512,7 @@ BboxAlignedText.prototype._calculateMetrics = function(shouldUpdateHeight) {
 <span class="jsdoc-message">
 	Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0</a>
 	
-		on 2016-05-19T21:09:59-05:00
+		on 2016-06-17T21:42:01-05:00
 	
 	using the <a href="https://github.com/docstrap/docstrap">DocStrap template</a>.
 </span>
