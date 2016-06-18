@@ -39,12 +39,12 @@
         p.createCanvas(800, 800);    
 
         // Create the bbox text
-        bboxText = new BboxAlignedText(font, string, fontSize, p);
+        bboxText = new BboxAlignedText(font, string, fontSize, 0, 0, p);
 
         // Create a bboxLabel to be used to display alignment labels above text
-        bboxLabel = new BboxAlignedText(font, "label", 16, p);
-        bboxLabel.setAnchor(BboxAlignedText.ALIGN.BOX_CENTER,
-                            BboxAlignedText.BASELINE.BOX_BOTTOM);
+        bboxLabel = new BboxAlignedText(font, "label", 16, 0, 0, p)
+            .setAnchor(BboxAlignedText.ALIGN.BOX_CENTER,
+                BboxAlignedText.BASELINE.BOX_BOTTOM);
     }
 
     function draw() {
@@ -67,15 +67,15 @@
                 // Draw a label saying what the anchor point is
                 p.fill(150);
                 p.noStroke();
-                bboxLabel.setText(hAlign + " - " + vAlign);
-                bboxLabel.draw(x, y - 50);
+                bboxLabel.setText(hAlign + " - " + vAlign)
+                    .draw(x, y - 50);
 
                 // Draw the text
                 p.fill("#00A8EA");
                 p.noStroke();
-                bboxText.setRotation(rotation);
-                bboxText.setAnchor(hAlign, vAlign);
-                bboxText.draw(x, y, true);
+                bboxText.setRotation(rotation)
+                    .setAnchor(hAlign, vAlign)
+                    .draw(x, y, true);
 
                 // Draw the anchor point
                 p.stroke(0);
